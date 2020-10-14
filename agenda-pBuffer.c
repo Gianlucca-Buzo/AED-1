@@ -62,9 +62,7 @@ void buscarNome(){
         printf("\nNome nao encontrado na lista");
 }
 
-void remover(){
-    printf("\nDigite o nome que deseja remover: ");
-    scanf("%s",var->auxNome);
+void verificaExiste(){
     var->posRemove = -1;
     contatos = pBuffer + sizeof(variaveis);
     for (var->i = 0; var->i < var->numContatos; var->i++){
@@ -74,7 +72,12 @@ void remover(){
             auxRemove = contatos;
         contatos++;
     }
+}
 
+void remover(){
+    printf("\nDigite o nome que deseja remover: ");
+    scanf("%s",var->auxNome);
+    verificaExiste();
     if(var->posRemove != -1){
         contatos = pBuffer + sizeof(variaveis) + sizeof(contato)*var->posRemove;
         strcpy(contatos->nome,auxRemove->nome);
