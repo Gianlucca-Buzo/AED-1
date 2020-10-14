@@ -27,8 +27,43 @@ char *insere (char* list, char nome[50]){
         list[tam2 + 1] = '\0';
         printf("%d",tam2);
     }
-    return list;
+    return list;   
+}
+
+void listar (char* list){
+    for (int i = 0; i < strlen(list); i++){
+
+        if(list[i] != ';')
+            printf("%c",list[i]);
+        else
+            printf("\n");  
+    }
+}
+
+char* remover (char* list, char nome[50]){
+    char *list2 = NULL;
+    char teste[50];
+    int i=0,j=0;
+    while(list[i]!= '\0'){
+        if (list[i] != ';'){
+            teste[j] = list[i];
+            i++;
+            j++;
+        }else{
+            teste[strlen(teste)] = '\0';
+            if(strcmp(nome,teste)!= 0){
+               list2 = insere(list2,teste);
+            }
+            
+            for (int k=0; k<j ;k++)
+                teste[k] = '\0';
+            j = 0;
+            i++;
+        }
     
+    }
+    free(list);
+    return list2;
 }
 
 char* options(int n, char* list){
@@ -43,13 +78,18 @@ char* options(int n, char* list){
         list = insere(list,nome);
         break;
     case 2:
-        printf("/n");
+        printf("\n");
+        listar(list);
         break;
     case 3:
         printf("Digite o nome que deseja remover: ");
+        scanf("%s",&nome);
+        nome[strlen(nome)] = '\0';
+        list = remover(list,nome);
         break;
     case 4:
         printf("Bye");
+        free(list);
         break;
     default:
         printf("Opção inválida, tente novamente");
