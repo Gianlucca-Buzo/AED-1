@@ -2,54 +2,80 @@
 #include <string.h>
 #include <stdlib.h>
 
-typedef struct contato{
-    char nome[50];
-    char telefone[15];
-    struct contato *next;
-}contato;
-
-typedef struct variaveis{
-    int i;
-    int j;
-    int tam;
-    contato *first;
-} variaveis;
+typedef struct pessoa{
+    char nome[30];
+    int idade;
+    int altura;
+    struct pessoa *next;
+}pessoa;
 
 
-void *insere(void *pBuffer){
-    if (((variaveis *)pBuffer)->first == NULL){
-        contato *novoContato;
-        novoContato = (contato *) malloc(sizeof(contato *));
-        printf("Digite o nome: ");
-        scanf("%s",novoContato->nome);
-        printf("Digite o telefone: ");
-        scanf("%s",novoContato->telefone);
-        novoContato->next = NULL;
-        //pBuffer = realloc(pBuffer,sizeof(variaveis*)+ sizeof(contato*));
-        ((variaveis *)pBuffer)->first = novoContato;
-        // printf("Digite o nome: ");
-        // scanf("%s",((variaveis *)pBuffer)->first->nome);
-        // printf("\nDigite o telefone: ");
-        // scanf("%s",((variaveis *)pBuffer)->first->nome);
+
+void *insere(pessoa *pessoas){
+    if(pessoas != NULL){
+        pessoa *novo, *aux;
+        aux = pessoas;
+        novo = (pessoa *) malloc(sizeof(pessoa));
+        if(novo != NULL){
+            printf("Digite o nome da pessoa: ");
+            scanf("%s", &novo->nome);
+            printf("Digite a idade: ");
+            scanf("%d", &novo->idade);
+            printf("Digite a altura em cm: ");
+            scanf("%d", &novo->altura);
+            novo->next = NULL;
+
+            while(aux->next != NULL)
+                aux = aux->next;
+            aux->next = novo;
+        }else{
+            printf("Erro de alocacao! ");
+        }
+    }else{
+        printf("Erro de alocacao");
     }
-    return pBuffer;
+    
+}
+
+void imprime(pessoa *pessoas){
+    pessoa *aux;
+    aux = pessoas;
+
+    if(aux->next != NULL){
+        aux = aux->next;
+        printf("==== Agenda ====\n");
+        while (aux != NULL){
+            printf("Nome: %s Idade : %d Altura: %d\n",aux->nome,aux->idade,aux->altura);
+            aux = aux->next;
+        }
+        
+    }else{
+        printf("Não tem nenhuma pessoa na agenda");
+    }
+    
 }
 
 int main (){ 
-    variaveis *var;
-    var = (variaveis *) malloc(sizeof(variaveis));
-    void* pBuffer = NULL;
-    var->i = 1;
-    var->j = 10;
-    var->tam = 0;
-    var->first = NULL;
-    pBuffer = var;
-    pBuffer = insere(pBuffer);
-    ((variaveis *)pBuffer)->tam = 20;
-
-    printf("%d",((variaveis *)pBuffer)->i);
-    printf("%s",((variaveis *)pBuffer)->first->nome);
-    printf("%s",((variaveis *)pBuffer)->first->telefone);
+    pessoa *head;
+    head = (pessoa *) malloc(sizeof(pessoa));
+    head->next = NULL;
+    int n = 0;
+    while(n != 2){
+    printf("\nMenu: \n1-Inserir\n2-Sair\n");
+    scanf("%d",&n);
+        switch (n){
+        case 1:
+            insere(head);
+            break;
+        case 2:
+            imprime(head);
+            free(head);
+            break;
+        default:
+            printf("\nOpcao invalida\n");
+            break;
+        }
+    }
 
     return 0;
 }

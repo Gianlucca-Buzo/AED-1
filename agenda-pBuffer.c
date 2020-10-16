@@ -129,7 +129,6 @@ void menu(){
     printf("\n5-Sair\n");
 }
 
-
 int main (){ 
     
     pBuffer = malloc(sizeof(variaveis));
