@@ -17,7 +17,7 @@ int main (){
     int **M = NULL;
     int linhas,colunas,i,n=0;    
     
-    while(n!= 7){
+    while(n!= 6){
         printf("\nMenu:\n1-Criar ou Refatorar\n2-Inserir dados\n3-Soma\n4-Imprime Vetor\n5-Imprimir Matriz\n6-Sair\n");
         scanf("%d",&n);
         switch (n)
@@ -43,10 +43,11 @@ int main (){
             imprimeMatriz(M,linhas,colunas);
             break;
         case 6:
-            break;
-        case 7:
-            break;        
+            esvaziar(M,linhas);
+            printf("Bye!");
+            break;       
         default:
+            printf("Opcao invalida, tente novamente");
             break;
         }
     } 
