@@ -57,6 +57,7 @@ void imprime(pessoa *pessoas){
 
 int main (){ 
     pessoa *head;
+    pessoa *aux;
     head = (pessoa *) malloc(sizeof(pessoa));
     head->next = NULL;
     int n = 0;
@@ -69,6 +70,11 @@ int main (){
             break;
         case 2:
             imprime(head);
+            while(head->next != NULL){
+                aux = head->next;
+                free(head);
+                head = aux;
+            }
             free(head);
             break;
         default:
