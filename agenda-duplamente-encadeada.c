@@ -35,6 +35,8 @@ SFila *fila;
 variaveis *var;
 void *pBuffer;
 
+void InserePorPosicao(pessoa *head);
+void RemovePorNome(pessoa *head);
 void imprimeFila();
 void criaFila(pessoa *head);
 void Push(pessoa *novo);
@@ -59,18 +61,17 @@ int main (){
     head = (pessoa *) malloc(sizeof(pessoa));
     head->next = NULL;
     head->prev = NULL;
-    while(var->opcao != 4){
-    printf("\nMenu: \n1-Inserir\n2-Imprimir\n3-Imprimir Ordenado \n4-Sair\n");
+    while(var->opcao != 6){
+    printf("\nMenu: \n1-Inserir\n2-Insere por posicao \n3-Ordenar \n4-Imprimir\n5-Remover\n6-Sair");
     scanf("%d",&var->opcao);
         switch (var->opcao){
         case 1:
             insere(head);
             break;
         case 2:
-            imprime(head);
+            InserePorPosicao(head);
         break;
         case 3:
-            //inicializa(head);
             printf("\nDeseja ordenar por 1-Nome ou 2-Telefone?");
             scanf("%d",&var->i);
             if(var->i == 1 || var->i == 2){
@@ -85,6 +86,12 @@ int main (){
             }
             break;
         case 4:
+         imprime(head);   
+        break;
+        case 5:
+            RemovePorNome(head);
+        break;
+        case 6:
             while(head->next != NULL){
                 aux = head;
                 head = head->next;
@@ -107,6 +114,58 @@ int main (){
     }
 
     return 0;
+}
+void InserePorPosicao(pessoa *head){
+    pessoa *novo, *aux,*prev,*next;
+    aux = head;
+    novo = (pessoa *) malloc(sizeof(pessoa));
+    printf("\nDigite a posicao que deseja inserir");
+    scanf("%d",&var->i);
+    if(var->i < var->numContatos && var->i >= 0){
+        printf("\nNome: ");
+        getchar();
+        gets(novo->nome);
+        printf("\nTelefone: ");
+        gets(novo->telefone);
+        var->contador = 0;
+        while(var->contador < var->i){
+            aux = aux->next;
+            var->contador++;
+        }
+        prev = aux->prev;
+        prev->next = novo;
+        novo->prev = prev;
+        novo->next = aux;
+        aux->prev = novo;
+        var->numContatos++;
+    }else{
+        printf("Posicao invalida");
+        free(novo);
+    }
+    
+}
+
+void RemovePorNome(pessoa *head){
+
+    printf("Digite o nome que deseja remover: ");
+    getchar();
+    gets(var->auxNome);
+    pessoa *auxPrev;
+    pessoa *auxNext;
+    for (pessoa *i = head->next; i != NULL; i = i->next){
+        if(strcmp(i->nome,var->auxNome)==0){
+            auxPrev = i->prev;
+            auxNext = i->next;
+            if(auxPrev)
+                auxPrev->next = auxNext;
+            if(auxNext)
+                auxNext->prev = auxPrev; 
+            var->auxNext = i;
+            free(auxNext);
+        }
+    }
+    
+
 }
 
 void imprimeFila(){
